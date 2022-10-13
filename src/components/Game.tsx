@@ -1,6 +1,7 @@
+import { MinesweeperContext } from "components/App";
 import minesweeper from "game/playGame";
 import { createGameBoard } from "game/setUpGame";
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import "./Game.css";
 
 type GameProps = { size: number };
@@ -19,8 +20,14 @@ const Game: FC<GameProps> = ({ size }) => {
     }
   });
 
+  const ctx = useContext(MinesweeperContext) || {
+    gameOver: false,
+    setGameOver: () => {},
+  };
+
   return (
     <>
+      <h4>{ctx.gameOver.toString()}</h4>
       {minesweeperBoard.map((values, i) => (
         <Row key={i} values={values} />
       ))}

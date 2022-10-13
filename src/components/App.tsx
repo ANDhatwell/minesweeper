@@ -1,13 +1,30 @@
-import React, { FC } from 'react';
+import React, { FC, createContext, useState } from "react";
+
 import Game from "components/Game";
 
-const App: FC = () => {
-  return (
-    <div id="container">
-      <h2>MINESWEEPER</h2>
+interface IMinesweeperContext {
+  gameOver: boolean;
+  setGameOver: (gameOver: boolean) => void;
+}
 
-      <Game size={6} />
-    </div>
+export const MinesweeperContext = createContext<IMinesweeperContext | null>(
+  null
+);
+
+const App: FC = () => {
+  const [gameOver, setGameOver] = useState(false);
+  const minesweeperContextValue: IMinesweeperContext = {
+    gameOver,
+    setGameOver,
+  };
+  return (
+    <MinesweeperContext.Provider value={minesweeperContextValue}>
+      <div id="container">
+        <h2>MINESWEEPER</h2>
+
+        <Game size={6} />
+      </div>
+    </MinesweeperContext.Provider>
   );
 };
 
