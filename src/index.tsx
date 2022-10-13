@@ -4,9 +4,12 @@ import './index.css';
 import App from "components/App";
 import reportWebVitals from './reportWebVitals';
 
+export const MinesweeperContext = React.createContext([false, () => {}]);
+
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <App />

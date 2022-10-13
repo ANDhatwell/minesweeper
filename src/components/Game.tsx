@@ -1,10 +1,11 @@
 import { MinesweeperContext } from "components/App";
+import { CellProps, GameProps, RowProps } from "components/types";
 import minesweeper from "game/playGame";
 import { createGameBoard } from "game/setUpGame";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState } from "react";
 import "./Game.css";
 
-type GameProps = { size: number };
+
 
 const Game: FC<GameProps> = ({ size }) => {
   const grid = createGameBoard(size);
@@ -20,10 +21,7 @@ const Game: FC<GameProps> = ({ size }) => {
     }
   });
 
-  const ctx = useContext(MinesweeperContext) || {
-    gameOver: false,
-    setGameOver: () => {},
-  };
+  const ctx = useContext(MinesweeperContext) 
 
   return (
     <>
@@ -35,8 +33,6 @@ const Game: FC<GameProps> = ({ size }) => {
   );
 };
 
-type RowProps = { values: string[] };
-
 const Row: FC<RowProps> = ({ values }) => (
   <div className="row">
     {values.map((val, i) => (
@@ -45,12 +41,43 @@ const Row: FC<RowProps> = ({ values }) => (
   </div>
 );
 
-type CellProps = { value: string };
 
-const Cell: FC<CellProps> = ({ value }) => (
-  <div data-testid="cell" className="cell">
-    {value}
-  </div>
-);
+
+const Cell: FC<CellProps> = ({ value }) => {
+  const [hidden, setHidden] = useState(true);
+
+  const {
+    setGameOver 
+  } = useContext(MinesweeperContext) 
+
+  
+  const handleGameOver = (isGameOver: boolean) =>{
+    console.log("before", isGameOver);
+    
+    setGameOver(true);
+
+    console.log("after", isGameOver);
+  }
+
+
+  const onClickCell = (event: React.MouseEvent) => {
+
+    setHidden(false);
+    console.log(event.currentTarget.textContent);
+    
+    
+    if (value === "X") {
+      handleGameOver(true)
+    }
+  };
+
+  
+
+  return (
+    <div className="cell" data-testid="cell" onClick={onClickCell}>
+      {hidden ? "" : value}
+    </div>
+  );
+};
 
 export default Game;

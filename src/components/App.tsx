@@ -7,8 +7,8 @@ interface IMinesweeperContext {
   setGameOver: (gameOver: boolean) => void;
 }
 
-export const MinesweeperContext = createContext<IMinesweeperContext | null>(
-  null
+export const MinesweeperContext = createContext<IMinesweeperContext>(
+  {} as IMinesweeperContext
 );
 
 const App: FC = () => {
